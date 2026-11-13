@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MINERAV | Digital Mineral Museum</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo">KOMMAS</a>
+
+            <ul class="nav-menu">
+                <li><a href="#home">Beranda</a></li>
+                <li><a href="#collection">Bebatuan</a></li>
+                <li><a href="#about">Tentang kami</a></li>
+            </ul>
+
+            <a href="#collection" class="nav-button">Explore Now</a>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <p class="subtitle">DIGITAL MINERAL MUSEUM</p>
+
+            <h1>Temukan keindahan<br>
+               dari <span>Mineral.</span>
+            </h1>
+
+            <p class="description">
+                Jelajahi dunia mineral yang indah. Pelajari karakteristiknya dan rasakan sendiri melalui Augmented Reality (AR)
+            </p>
+
+            <a href="#collection" class="primary-button">
+                Eksplor bebatuan →
+            </a>
+        </div>
+
+        <div class="hero-image">
+            <div class="mineral-placeholder">
+                <span>✧</span>
+                <p>Koleksi bebatuan/p>
+            </div>
+        </div>
+    </section>
+
+    <!-- COLLECTION SECTION -->
+    <section class="collection" id="collection">
+        <div class="section-heading">
+            <div>
+                <p class="subtitle">Koleksi kami
+                <h2>Eksplor Bebatuan</h2>
+            </div>
+            <p>Temukan berbagai jenis bebatuan<br>
+                dan keunikannya.</p>
+        </div>
+
+        <div class="mineral-grid">
+
+            <div class="mineral-card">
+                <div class="mineral-image amethyst">
+                    <span>✧</span>
+                </div>
+                <div class="card-content">
+                    <h3>Batu apa ini</h3>
+                    <p>A beautiful purple variety of quartz.</p>
+                    <a href="#" class="detail-link"
+                       onclick="showMineral('Amethyst'); return false;">
+                        View Details →
+                    </a>
+                </div>
+            </div>
+
+            <div class="mineral-card">
+                <div class="mineral-image quartz">
+                    <span>◇</span>
+                </div>
+                <div class="card-content">
+                    <h3>Quartz</h3>
+                    <p>One of the most abundant minerals.</p>
+                    <a href="#" class="detail-link"
+                       onclick="showMineral('Quartz'); return false;">
+                        View Details →
+                    </a>
+                </div>
+            </div>
+
+            <div class="mineral-card">
+                <div class="mineral-image pyrite">
+                    <span>✧</span>
+                </div>
+                <div class="card-content">
+                    <h3>Pyrite</h3>
+                    <p>A metallic mineral with golden color.</p>
+                    <a href="#" class="detail-link"
+                       onclick="showMineral('Pyrite'); return false;">
+                        View Details →
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- AR SECTION -->
+    <section class="ar-section">
+        <div class="ar-content">
+            <p class="subtitle">Bagian interaktif</p>
+            <h2>Pengalaman dalam perbatuan<br>di Augmented Reality.</h2>
+            <p>
+               Temukan mineral dengan cara yang berbeda. Pindai gambar dan jelajahi tiga dimensinya
+            </p>
+            <a href="ar.html" class="primary-button">
+                Explore with AR →
+            </a>
+        </div>
+
+        <div class="ar-icon">
+            <span>⌖</span>
+            <p>AR EXPERIENCE</p>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="about" id="about">
+        <p class="subtitle">ABOUT MINERAV</p>
+        <h2>Exploring Minerals<br>Through Technology.</h2>
+        <p>
+            MINERAV is a digital mineral museum designed
+            to introduce mineral collections through
+            interactive information and augmented reality.
+        </p>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <h3>MINERAV<span>.</span></h3>
+        <p>Digital Mineral Museum © 2026</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
