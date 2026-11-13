@@ -693,8 +693,8 @@
     };
   };
 
-  // ---------- BIOTITIT (batuan hitam kaya mika dari Antartika) ----------
-  RESEP.biotitit = function () {
+  // ---------- BIOTITE (batuan hitam kaya mika dari Antartika) ----------
+  RESEP.biotite = function () {
     var rnd = acak(401);
     var faset = buatFaset(rnd, 14, 0.6, 0.92);
     return {

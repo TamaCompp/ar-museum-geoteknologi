@@ -52,14 +52,14 @@ window.KOLEKSI = [
     ]
   },
   {
-    id: 'biotitit',
-    nama: 'Biotitit (Batuan Antartika)',
+    id: 'biotite',
+    nama: 'Biotite (Batuan Antartika)',
     kategori: 'Batuan dari Pegmatit',
     jenis: 'batu',
-    resep: 'biotitit',
+    resep: 'biotite',
     targetIndex: 2,
     ringkas: 'Batuan hitam berkilap kaca yang sebagian besar tersusun dari mineral biotit. Koleksi ini berasal dari Antartika.',
-    pembentukan: 'Biotitit ini merupakan bagian dari retas pegmatit (pegmatite dyke) yang memotong batuan metamorf. Komposisinya sebagian besar biotit dengan sedikit kuarsa, plagioklas, dan hornblende.',
+    pembentukan: 'Biotite ini merupakan bagian dari retas pegmatit (pegmatite dyke) yang memotong batuan metamorf. Komposisinya sebagian besar biotit dengan sedikit kuarsa, plagioklas, dan hornblende.',
     kegunaan: 'Bahan penelitian geologi Antartika. Koleksi ini merupakan hibah dari Ir. Nugroho Imam Setiawan, S.T., M.T., D.Sc., IPM., hasil Ekspedisi Geologi Antartika bersama Japan Antarctic Research Expedition 58 (JARE58), 27 November 2016 sampai 22 Maret 2017.',
     lokasi: 'Antartika.',
     dalam: [

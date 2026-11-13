@@ -12,7 +12,7 @@ Projek akhir mata kuliah Komputer dan Masyarakat, Informatika UPNVYK.
 | `viewer.html?id=kuarsa` | Lihat 3D tanpa kamera (bisa di laptop) |
 | `ar.html?id=kuarsa` | Mode AR dengan kamera HP + marker |
 
-ID koleksi: `kuarsa`, `zamrud`, `biotitit`, `homoerectus`, `gajah`.
+ID koleksi: `kuarsa`, `zamrud`, `biotite`, `homoerectus`, `gajah`.
 
 ## Struktur
 
