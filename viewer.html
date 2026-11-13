@@ -23,10 +23,10 @@
 
     <!-- lampu (angka data-lampu = intensitas dasar, bisa diatur dengan ?cahaya=1.5) -->
     <a-entity light="type: hemisphere; color: #fff6e8; groundColor: #4a4036; intensity: 2.4" data-lampu="2.4"></a-entity>
-    <a-entity light="type: directional; color: #fff; intensity: 3" position="1.5 2.5 2" data-lampu="3"></a-entity>
+    <a-entity bayangan="bidang: lantai; tinggi: -0.56; kekuatan: 3; gelap: 0.45"></a-entity>
     <a-entity light="type: directional; color: #c9d6ff; intensity: 1" position="-2 0.5 -1" data-lampu="1"></a-entity>
 
-    <a-entity putar-geser="otomatis: true" rotation="0.25 -0.5 0">
+    <a-entity putar-geser="otomatis: true" rotation="12 -30 0">
       <a-entity koleksi-3d="id: kuarsa; skala: 1"></a-entity>
     </a-entity>
   </a-scene>
@@ -37,6 +37,7 @@
   </div>
 
   <div class="ui" id="memuat">Menyiapkan model 3D...</div>
+  <div class="ui" id="tips">Geser untuk memutar &middot; cubit/scroll untuk zoom &middot; ketuk 2x untuk reset</div>
 
   <section class="ui" id="panel">
     <div id="kategori"></div>
