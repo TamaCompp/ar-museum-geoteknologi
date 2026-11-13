@@ -22,6 +22,7 @@
 
   <div class="ui" id="memuat">Menyiapkan model 3D...</div>
   <div class="ui" id="petunjuk">Arahkan kamera ke gambar marker</div>
+  <div class="ui" id="tips">Geser untuk memutar &middot; cubit untuk memperbesar &middot; ketuk 2x untuk menegakkan</div>
 
   <section class="ui" id="panel">
     <div id="kategori"></div>
@@ -65,8 +66,9 @@
       var putarX = ORIENTASI === 'meja' ? '90 0 0' : '0 0 0';
       var isi = target.map(function (t) {
         return '<a-entity mindar-image-target="targetIndex: ' + t.idx + '">' +
+                 '<a-entity bayangan="bidang: marker; tinggi: 0.002"></a-entity>' +
                  '<a-entity position="0 0 0.3" rotation="' + putarX + '">' +
-                   '<a-entity putar-geser="miring: false">' +
+                   '<a-entity putar-geser="cubit: true; tegakOtomatis: ' + (ORIENTASI === 'tegak') + '">' +
                      '<a-entity koleksi-3d="id: ' + t.id + '; skala: ' + SKALA_MODEL + '; tunda: ' + MARKER.banyak + '"></a-entity>' +
                    '</a-entity>' +
                  '</a-entity>' +
@@ -78,7 +80,6 @@
         ' vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">' +
           '<a-camera position="0 0 0" look-controls="enabled: false"></a-camera>' +
           '<a-entity light="type: hemisphere; color: #fff6e8; groundColor: #4a4036; intensity: 2.6" data-lampu="2.6"></a-entity>' +
-          '<a-entity light="type: directional; color: #fff; intensity: 3" position="1 2 3" data-lampu="3"></a-entity>' +
           isi +
         '</a-scene>';
     })();
