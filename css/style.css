@@ -117,3 +117,15 @@ body.terbelah #detail { display: none; }
 
 /* wadah AR: MindAR menaruh video kamera di elemen ini */
 #wadah-scene { position: fixed; inset: 0; overflow: hidden; }
+
+/* tombol bawaan A-Frame (VR/AR) tidak dipakai */
+.a-enter-vr, .a-enter-ar, .a-enter-vr-button, .a-enter-ar-button { display: none !important; }
+
+#tips {
+  left: 50%; top: 64px; transform: translateX(-50%);
+  background: rgba(20, 18, 16, 0.7); border-radius: 999px; padding: 6px 12px;
+  font-size: 12px; color: var(--redup); white-space: nowrap; pointer-events: none;
+  animation: hilang 1s ease 6s forwards;
+}
+@keyframes hilang { to { opacity: 0; } }
+@media (max-width: 420px) { #tips { white-space: normal; text-align: center; width: 86vw; border-radius: 12px; } }
