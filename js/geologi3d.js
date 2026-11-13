@@ -561,7 +561,7 @@
     var faset = buatFaset(rnd, 8, 0.7, 0.95);
     var susu = linear('#f1eee8'), bening = linear('#fbfdff'), pangkal = linear('#e9d9cc');
     return {
-      skala: [1.25, 0.36, 0.85], kasarLuar: 0.55, kasarDalam: 0.3, bump: 0.012, env: 0.7,
+      skala: [0.95, 0.45, 0.75], kasarLuar: 0.55, kasarDalam: 0.3, bump: 0.012, env: 0.7,
       radius: function (d) {
         var r = potong(d, faset, 1, 0.06);
         r *= 1 + 0.08 * fbm(d[0] * 3, d[1] * 3, d[2] * 3, 203, 3) + 0.02 * fbm(d[0] * 12, d[1] * 12, d[2] * 12, 205, 2);
@@ -585,8 +585,8 @@
         return [c[0], c[1], c[2], 0.5];
       },
       bahan: {
-        kristal: { warna: '#ffffff', vertexWarna: true, kasar: 0.06, opasitas: 0.8, env: 1.6, tutup: 'potongKristal' },
-        potongKristal: { peta: 'zonaKuarsa', kasar: 0.12, opasitas: 0.95, env: 0.9 }
+        kristal: { warna: '#ffffff', vertexWarna: true, kasar: 0.04, opasitas: 0.82, env: 1.8, kilap: true, tutup: 'potongKristal' },
+        potongKristal: { peta: 'zonaKuarsa', kasar: 0.08, opasitas: 0.95, env: 1.0, kilap: true }
       },
       gradien: {
         zonaKuarsa: function (s, v) {
@@ -600,18 +600,21 @@
       },
       tambahan: function (k) {
         var r = acak(217), hasil = [];
-        function warnaKristal(t) {
-          return t < 0.12 ? lV(pangkal, susu, t / 0.12) : lV(susu, bening, smoothstep(0.2, 0.85, t));
+        function warnaKristal(keruh) {
+          return function (t) {
+            var c = t < 0.12 ? lV(pangkal, susu, t / 0.12) : lV(susu, bening, smoothstep(0.15, 0.9, t) * (1 - keruh));
+            return c;
+          };
         }
         // kristal besar di tengah (pasti terbelah)
         var dasar = k.permukaan([0.02, 1, 0.05]);
-        hasil.push(prisma(sV(dasar, 0.6), [0.12, 1, 0.08], 1.15, 0.21, 0.27, 0.2, warnaKristal, 'kristal'));
-        for (var i = 0; i < 17; i++) {
-          var d = nV([(r() - 0.5) * 1.8, 0.55 + r() * 0.5, (r() - 0.5) * 1.3]);
-          var p = sV(k.permukaan(d), 0.75);
-          var arah = [d[0] * 0.9 + (r() - 0.5) * 0.5, 1, d[2] * 0.7 + (r() - 0.5) * 0.4];
-          var jari = 0.06 + r() * 0.12;
-          hasil.push(prisma(p, arah, 0.3 + r() * 0.75, jari, jari * 1.3, r() * PI, warnaKristal, 'kristal'));
+        hasil.push(prisma(sV(dasar, 0.55), [0.12, 1, 0.08], 1.35, 0.24, 0.3, 0.2, warnaKristal(0.15), 'kristal'));
+        for (var i = 0; i < 15; i++) {
+          var d = nV([(r() - 0.5) * 1.7, 0.5 + r() * 0.5, (r() - 0.5) * 1.3]);
+          var p = sV(k.permukaan(d), 0.7);
+          var arah = [d[0] * 1.1 + (r() - 0.5) * 0.5, 1, d[2] * 0.8 + (r() - 0.5) * 0.4];
+          var jari = 0.08 + r() * 0.13;
+          hasil.push(prisma(p, arah, 0.45 + r() * 0.85, jari, jari * 1.25, r() * PI, warnaKristal(r() * 0.7), 'kristal'));
         }
         return hasil;
       }
@@ -664,8 +667,8 @@
         return [c[0], c[1], c[2], 0.5];
       },
       bahan: {
-        beril: { warna: '#1aa37a', kasar: 0.15, opasitas: 0.9, env: 1.3, tutup: 'potongBeril' },
-        potongBeril: { peta: 'zonaBeril', kasar: 0.15, opasitas: 0.96, env: 0.8 }
+        beril: { warna: '#1aa37a', kasar: 0.12, opasitas: 0.9, env: 1.4, kilap: true, tutup: 'potongBeril' },
+        potongBeril: { peta: 'zonaBeril', kasar: 0.1, opasitas: 0.96, env: 1.0, kilap: true }
       },
       gradien: {
         zonaBeril: function (s, v) {
@@ -888,8 +891,8 @@
     if (!pabrik) throw new Error('Resep tidak dikenal: ' + namaResep);
     var R = pabrik();
     var S = R.skala;
-    var nT = opsi.nT || 80;          // kolom per belahan
-    var nP = opsi.nP || 72;          // baris (kutub ke kutub)
+    var nT = opsi.nT || 96;          // kolom per belahan
+    var nP = opsi.nP || 88;          // baris (kutub ke kutub)
     var kol = nT * 2;                // kolom bola penuh (melingkar)
 
     // posisi grid penuh: theta dari -pi/2, kolom 0..kol-1 (melingkar)
@@ -1305,7 +1308,11 @@
       };
       if (sp.opasitas !== undefined && sp.opasitas < 1) { o.transparent = true; o.opacity = sp.opasitas; }
       if (sp.peta && R.gradien && R.gradien[sp.peta]) o.map = teks(bakarGradien(R.gradien[sp.peta], 256, 64), true);
-      var m = new THREE.MeshStandardMaterial(o);
+      var m;
+      if (sp.kilap && THREE.MeshPhysicalMaterial) {
+        o.clearcoat = 1; o.clearcoatRoughness = 0.04;
+        m = new THREE.MeshPhysicalMaterial(o);
+      } else m = new THREE.MeshStandardMaterial(o);
       sampah.push(m);
       bahanThree[nama] = m;
       return m;
