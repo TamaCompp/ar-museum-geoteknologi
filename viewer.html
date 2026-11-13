@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Lihat 3D | AR Museum Geoteknologi</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="js/koleksi.js"></script>
+  <script src="js/geologi3d.js"></script>
+  <script src="js/komponen.js"></script>
+</head>
+<body class="halaman-3d" data-mode="viewer">
+
+  <a-scene
+    renderer="colorManagement: true; antialias: true; physicallyCorrectLights: true"
+    background="color: #1e1b18"
+    vr-mode-ui="enabled: false"
+    device-orientation-permission-ui="enabled: false"
+    loading-screen="enabled: false">
+
+    <a-entity id="kamera" camera position="0 0.05 2" look-controls="enabled: false" wasd-controls="enabled: false"></a-entity>
+
+    <!-- lampu (angka data-lampu = intensitas dasar, bisa diatur dengan ?cahaya=1.5) -->
+    <a-entity light="type: hemisphere; color: #fff6e8; groundColor: #4a4036; intensity: 2.4" data-lampu="2.4"></a-entity>
+    <a-entity light="type: directional; color: #fff; intensity: 3" position="1.5 2.5 2" data-lampu="3"></a-entity>
+    <a-entity light="type: directional; color: #c9d6ff; intensity: 1" position="-2 0.5 -1" data-lampu="1"></a-entity>
+
+    <a-entity putar-geser="otomatis: true" rotation="0.25 -0.5 0">
+      <a-entity koleksi-3d="id: kuarsa; skala: 1"></a-entity>
+    </a-entity>
+  </a-scene>
+
+  <div class="ui atas">
+    <a class="kembali" href="index.html" aria-label="Kembali">&#8592;</a>
+    <div id="pilih"></div>
+  </div>
+
+  <div class="ui" id="memuat">Menyiapkan model 3D...</div>
+
+  <section class="ui" id="panel">
+    <div id="kategori"></div>
+    <h1 id="nama"></h1>
+    <p id="ringkas"></p>
+    <div id="detail"></div>
+    <div class="bagian-dalam">
+      <h3>Isi bagian dalam</h3>
+      <ul id="daftar-dalam"></ul>
+    </div>
+  </section>
+
+  <div class="ui bawah">
+    <button id="btn-belah" type="button">Belah batu</button>
+    <button id="btn-suara" type="button" aria-label="Dengarkan penjelasan">&#128266;</button>
+    <button id="btn-info" type="button" aria-label="Tampilkan/sembunyikan info">i</button>
+  </div>
+
+  <script src="js/ui.js"></script>
+</body>
+</html>

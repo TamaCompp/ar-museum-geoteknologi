@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AR Museum Geoteknologi Mineral UPNVYK</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="beranda">
+    <header>
+      <div class="label">Museum Geoteknologi Mineral UPNVYK</div>
+      <h1>Belah batu dan fosil, lihat isinya dalam AR</h1>
+      <p>Arahkan kamera HP ke marker di samping koleksi. Model 3D akan muncul, bisa diputar, lalu dibelah untuk melihat mineral dan struktur di bagian dalamnya.</p>
+    </header>
+
+    <div class="grid" id="daftar"></div>
+
+    <section class="cara">
+      <h2>Cara mencoba</h2>
+      <ol>
+        <li><b>Tanpa kamera:</b> tekan <i>Lihat 3D</i> untuk memutar dan membelah model langsung di layar.</li>
+        <li><b>Dengan AR:</b> buka gambar marker
+          <a href="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" target="_blank" rel="noopener">ini</a>
+          di layar laptop atau cetak di kertas.</li>
+        <li>Di HP, tekan <i>Mode AR</i>, izinkan kamera, lalu arahkan ke marker.</li>
+        <li>Tekan <i>Belah</i> untuk melihat isi bagian dalam, dan tombol speaker untuk mendengarkan penjelasan.</li>
+      </ol>
+    </section>
+
+    <p class="catatan">Model 3D dibuat dengan kode sebagai ilustrasi, bukan hasil pindai koleksi asli. Informasi koleksi bersifat umum dan perlu dicocokkan dengan data museum.</p>
+  </main>
+
+  <script src="js/koleksi.js"></script>
+  <script>
+    (function () {
+      var wadah = document.getElementById('daftar');
+      window.KOLEKSI.forEach(function (k) {
+        var warna = k.dalam.map(function (x) { return '<span style="background:' + x.warna + '" title="' + x.nama + '"></span>'; }).join('');
+        var div = document.createElement('article');
+        div.className = 'kartu';
+        div.innerHTML =
+          '<div class="kat">' + k.kategori + '</div>' +
+          '<h2>' + k.nama + '</h2>' +
+          '<p>' + k.ringkas + '</p>' +
+          '<div class="warna">' + warna + '</div>' +
+          '<div class="aksi">' +
+            '<a class="tombol" href="viewer.html?id=' + k.id + '">Lihat 3D</a>' +
+            '<a class="tombol utama" href="ar.html?id=' + k.id + '">Mode AR</a>' +
+          '</div>';
+        wadah.appendChild(div);
+      });
+    })();
+  </script>
+</body>
+</html>
