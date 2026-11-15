@@ -16,9 +16,12 @@
   function $(s) { return document.querySelector(s); }
   var el = {
     nama: $('#nama'), kategori: $('#kategori'), ringkas: $('#ringkas'), detail: $('#detail'),
+    fakta: $('#fakta'), selengkapnya: $('#selengkapnya'),
     dalam: $('#daftar-dalam'), pilih: $('#pilih'), belah: $('#btn-belah'), suara: $('#btn-suara'),
-    info: $('#btn-info'), panel: $('#panel'), muat: $('#memuat'), petunjuk: $('#petunjuk')
+    info: $('#btn-info'), panel: $('#panel'), muat: $('#memuat'), petunjuk: $('#petunjuk'),
+    panduan: $('#panduan'), bantuan: $('#btn-bantuan')
   };
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
   function item(id) {
     for (var i = 0; i < daftar.length; i++) if (daftar[i].id === id) return daftar[i];
@@ -65,13 +68,19 @@
     el.nama.textContent = k.nama;
     el.kategori.textContent = k.kategori;
     el.ringkas.textContent = k.ringkas;
-    el.detail.innerHTML =
-      '<p><b>Pembentukan.</b> ' + k.pembentukan + '</p>' +
-      '<p><b>Kegunaan.</b> ' + k.kegunaan + '</p>' +
-      '<p><b>Lokasi.</b> ' + k.lokasi + '</p>';
+    if (el.fakta) {
+      el.fakta.innerHTML = (k.fakta && k.fakta.length)
+        ? '<b>Tahukah kamu?</b><ul>' + k.fakta.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul>'
+        : '';
+    }
+    el.detail.innerHTML = (k.selengkapnya || []).map(function (r) {
+      return '<dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd>';
+    }).join('');
+    if (el.selengkapnya) el.selengkapnya.open = false;
     el.dalam.innerHTML = k.dalam.map(function (x) {
       return '<li><span class="titik" style="background:' + x.warna + '"></span>' +
-             '<div><b>' + x.nama + '</b><small>' + x.ket + '</small></div></li>';
+             '<div><b>' + esc(x.nama) + '</b>' + (x.istilah ? '<i>' + esc(x.istilah) + '</i>' : '') +
+             '<small>' + esc(x.ket) + '</small></div></li>';
     }).join('');
     document.title = k.nama + ' | AR Museum Geoteknologi';
     if (el.pilih) Array.prototype.forEach.call(el.pilih.querySelectorAll('button'), function (b) {
@@ -84,7 +93,9 @@
   function aturBelah(buka, diam) {
     terbelah = buka;
     document.body.classList.toggle('terbelah', buka);
-    el.belah.textContent = buka ? 'Satukan kembali' : (item(aktifId).jenis === 'fosil' ? 'Belah fosil' : 'Belah batu');
+    el.belah.innerHTML = buka
+      ? '<span class="ikon">&#8635;</span> Satukan kembali'
+      : '<span class="ikon">&#9881;</span> ' + (item(aktifId).jenis === 'fosil' ? 'Belah &amp; lihat isinya' : 'Belah &amp; lihat isinya');
     if (!diam && modelAktif && modelAktif.components['koleksi-3d']) modelAktif.components['koleksi-3d'].belah(buka);
     if (!diam && mode === 'viewer' && window.aturZoomBelah) window.aturZoomBelah(buka);
     if (buka && el.panel) el.panel.classList.remove('tertutup');
@@ -109,8 +120,8 @@
       if (bicara.speaking) { hentikanSuara(); return; }
       var k = item(aktifId);
       var teks = terbelah
-        ? 'Bagian dalam ' + k.nama + '. ' + k.dalam.map(function (x) { return x.nama + '. ' + x.ket; }).join(' ')
-        : k.nama + '. ' + k.ringkas + ' ' + k.pembentukan;
+        ? 'Ini bagian dalam ' + k.nama + '. ' + k.dalam.map(function (x) { return x.nama + '. ' + x.ket; }).join(' ')
+        : k.nama + '. ' + k.ringkas + ' Tahukah kamu? ' + (k.fakta || []).join(' ');
       var u = new SpeechSynthesisUtterance(teks);
       u.lang = 'id-ID';
       u.rate = 0.95;
@@ -208,6 +219,21 @@
       l.setAttribute('light', 'intensity', dasar * cahaya);
     });
   }
+
+  // ---------- panduan singkat (muncul saat pertama kali dibuka) ----------
+  var kunciPanduan = 'minerav-panduan-' + mode;
+  function tutupPanduan() {
+    if (!el.panduan) return;
+    el.panduan.classList.remove('tampil');
+    try { localStorage.setItem(kunciPanduan, '1'); } catch (e) { /* abaikan */ }
+  }
+  if (el.panduan) {
+    var sudah = false;
+    try { sudah = localStorage.getItem(kunciPanduan) === '1'; } catch (e) { sudah = false; }
+    if (!sudah) el.panduan.classList.add('tampil');
+    el.panduan.addEventListener('click', function (e) { if (e.target.closest('[data-tutup]') || e.target === el.panduan) tutupPanduan(); });
+  }
+  if (el.bantuan) el.bantuan.addEventListener('click', function () { if (el.panduan) el.panduan.classList.add('tampil'); });
 
   tampilkan(aktifId);
 })();

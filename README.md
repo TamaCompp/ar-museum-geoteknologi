@@ -30,19 +30,20 @@ js/ui.js          tombol, panel info, suara, zoom
 
 ## Mengganti isi informasi
 
-Edit `js/koleksi.js`. Teks yang ada sekarang adalah informasi geologi umum. Cocokkan dengan data koleksi dari staf museum.
+Edit `js/koleksi.js`. Teks ditulis dengan bahasa sehari-hari (ringkas, fakta seru, isi dalam); istilah ilmiah ada di kolom `istilah` dan `selengkapnya`. Cocokkan dengan data dari staf museum.
 
-## Memakai marker sendiri (5 marker)
+Setiap kali mengubah file CSS/JS, naikkan angka `?v=` di `index.html`, `viewer.html`, `ar.html` (dan `VERSI` di `ar.html`).
 
-1. Siapkan 5 gambar marker (foto/desain yang detail dan kontras, bukan gambar polos).
-2. Compile kelima gambar sekaligus di MindAR Image Target Compiler (cari "mind-ar image targets compiler"). Urutan upload = urutan `targetIndex` (0 sampai 4).
-3. Simpan hasilnya sebagai `assets/markers/targets.mind`.
-4. Di `js/koleksi.js`, isi `targetIndex` tiap koleksi sesuai urutan marker.
-5. Di `ar.html`, ubah pengaturan:
-   ```js
-   var MARKER = { file: 'assets/markers/targets.mind', banyak: true };
-   ```
-6. Kalau marker diletakkan mendatar di meja, ubah `var ORIENTASI = 'meja';`.
+## Kartu marker (1 koleksi = 1 kartu)
+
+Kartu ada di `assets/markers/`: `1-kuarsa.png` sampai `5-gajah.png`, plus `kartu-marker.pdf` untuk dicetak.
+
+1. Buka MindAR Image Targets Compiler: https://hiukim.github.io/mind-ar-js-doc/tools/compile
+2. Upload kelima PNG **berurutan** (1-kuarsa, 2-zamrud, 3-biotite, 4-homoerectus, 5-gajah), tekan Start.
+3. Tekan Download, simpan hasilnya sebagai `assets/markers/targets.mind`, lalu push.
+4. `ar.html` otomatis memakai file ini. Selama file belum ada, halaman memakai 1 marker contoh dan koleksi dipilih lewat tombol.
+
+Urutan upload harus sama dengan `targetIndex` di `js/koleksi.js` (0 sampai 4). Kalau kartu diletakkan mendatar di meja, ubah `var ORIENTASI = 'meja';` di `ar.html`.
 
 ## Tips
 

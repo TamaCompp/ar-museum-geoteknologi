@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>Lihat 3D | AR Museum Geoteknologi</title>
-  <link rel="stylesheet" href="css/style.css?v=3" />
+  <link rel="stylesheet" href="css/style.css?v=4" />
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-  <script src="js/koleksi.js?v=3"></script>
-  <script src="js/geologi3d.js?v=3"></script>
-  <script src="js/komponen.js?v=3"></script>
+  <script src="js/koleksi.js?v=4"></script>
+  <script src="js/geologi3d.js?v=4"></script>
+  <script src="js/komponen.js?v=4"></script>
 </head>
 <body class="halaman-3d" data-mode="viewer">
 
@@ -34,28 +34,46 @@
   <div class="ui atas">
     <a class="kembali" href="index.html" aria-label="Kembali">&#8592;</a>
     <div id="pilih"></div>
+    <button id="btn-bantuan" type="button" aria-label="Cara memakai">?</button>
   </div>
 
   <div class="ui" id="memuat">Menyiapkan model 3D...</div>
-  <div class="ui" id="tips">Geser untuk memutar &middot; cubit/scroll untuk zoom &middot; ketuk 2x untuk reset</div>
 
   <section class="ui" id="panel">
     <div id="kategori"></div>
     <h1 id="nama"></h1>
     <p id="ringkas"></p>
-    <div id="detail"></div>
+    <div id="fakta"></div>
+    <details id="selengkapnya">
+      <summary>Baca selengkapnya</summary>
+      <dl id="detail"></dl>
+    </details>
+    <p class="ajakan">Tekan <b>Belah &amp; lihat isinya</b> untuk melihat bagian dalamnya.</p>
     <div class="bagian-dalam">
-      <h3>Isi bagian dalam</h3>
+      <h3>Isi di dalamnya</h3>
+      <p class="petunjuk-warna">Warna titik sama dengan warna di potongan model.</p>
       <ul id="daftar-dalam"></ul>
     </div>
   </section>
 
   <div class="ui bawah">
-    <button id="btn-belah" type="button">Belah batu</button>
-    <button id="btn-suara" type="button" aria-label="Dengarkan penjelasan">&#128266;</button>
-    <button id="btn-info" type="button" aria-label="Tampilkan/sembunyikan info">i</button>
+    <button id="btn-belah" type="button">Belah &amp; lihat isinya</button>
+    <button id="btn-suara" type="button" aria-label="Dengarkan penjelasan"><span class="ikon">&#128266;</span><span class="teks">Dengar</span></button>
+    <button id="btn-info" type="button" aria-label="Tampilkan atau sembunyikan info"><span class="ikon">&#8505;</span><span class="teks">Info</span></button>
   </div>
 
-  <script src="js/ui.js?v=3"></script>
+  <div class="ui" id="panduan" role="dialog" aria-label="Cara memakai">
+    <div class="kartu-panduan">
+      <h2>Cara memakai</h2>
+      <ol>
+        <li><span class="besar">&#128070;</span><div><b>Geser layar</b><small>untuk memutar koleksi ke segala arah.</small></div></li>
+        <li><span class="besar">&#129295;</span><div><b>Cubit dua jari</b><small>untuk memperbesar atau memperkecil.</small></div></li>
+        <li><span class="besar">&#9881;</span><div><b>Tekan "Belah &amp; lihat isinya"</b><small>untuk melihat bagian dalam koleksi.</small></div></li>
+      </ol>
+      <button type="button" class="mulai" data-tutup>Mengerti, mulai</button>
+    </div>
+  </div>
+
+  <script src="js/ui.js?v=4"></script>
 </body>
 </html>

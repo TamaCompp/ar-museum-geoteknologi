@@ -4,12 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>Mode AR | AR Museum Geoteknologi</title>
-  <link rel="stylesheet" href="css/style.css?v=3" />
+  <link rel="stylesheet" href="css/style.css?v=4" />
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-  <script src="js/koleksi.js?v=3"></script>
-  <script src="js/geologi3d.js?v=3"></script>
-  <script src="js/komponen.js?v=3"></script>
+  <script src="js/koleksi.js?v=4"></script>
+  <script src="js/geologi3d.js?v=4"></script>
+  <script src="js/komponen.js?v=4"></script>
 </head>
 <body class="halaman-3d" data-mode="ar">
 
@@ -18,72 +18,103 @@
   <div class="ui atas">
     <a class="kembali" href="index.html" aria-label="Kembali">&#8592;</a>
     <div id="pilih"></div>
+    <button id="btn-bantuan" type="button" aria-label="Cara memakai">?</button>
   </div>
 
   <div class="ui" id="memuat">Menyiapkan model 3D...</div>
-  <div class="ui" id="petunjuk">Arahkan kamera ke gambar marker</div>
-  <div class="ui" id="tips">Geser untuk memutar &middot; cubit untuk memperbesar &middot; ketuk 2x untuk menegakkan</div>
+  <div class="ui" id="petunjuk"><span class="ikon">&#128247;</span> Arahkan kamera ke <b>kartu bergambar</b> di samping koleksi</div>
 
   <section class="ui" id="panel">
     <div id="kategori"></div>
     <h1 id="nama"></h1>
     <p id="ringkas"></p>
-    <div id="detail"></div>
+    <div id="fakta"></div>
+    <details id="selengkapnya">
+      <summary>Baca selengkapnya</summary>
+      <dl id="detail"></dl>
+    </details>
+    <p class="ajakan">Tekan <b>Belah &amp; lihat isinya</b> untuk melihat bagian dalamnya.</p>
     <div class="bagian-dalam">
-      <h3>Isi bagian dalam</h3>
+      <h3>Isi di dalamnya</h3>
+      <p class="petunjuk-warna">Warna titik sama dengan warna di potongan model.</p>
       <ul id="daftar-dalam"></ul>
     </div>
   </section>
 
   <div class="ui bawah">
-    <button id="btn-belah" type="button">Belah batu</button>
-    <button id="btn-suara" type="button" aria-label="Dengarkan penjelasan">&#128266;</button>
-    <button id="btn-info" type="button" aria-label="Tampilkan/sembunyikan info">i</button>
+    <button id="btn-belah" type="button">Belah &amp; lihat isinya</button>
+    <button id="btn-suara" type="button" aria-label="Dengarkan penjelasan"><span class="ikon">&#128266;</span><span class="teks">Dengar</span></button>
+    <button id="btn-info" type="button" aria-label="Tampilkan atau sembunyikan info"><span class="ikon">&#8505;</span><span class="teks">Info</span></button>
+  </div>
+
+  <div class="ui" id="panduan" role="dialog" aria-label="Cara memakai">
+    <div class="kartu-panduan">
+      <h2>Cara memakai</h2>
+      <ol>
+        <li><span class="besar">&#128247;</span><div><b>Izinkan kamera</b><small>saat HP bertanya. Kamera hanya dipakai untuk melihat kartu.</small></div></li>
+        <li><span class="besar">&#128444;</span><div><b>Arahkan kamera ke kartu</b><small>yang ada di samping koleksi. Model 3D akan muncul di atas kartu.</small></div></li>
+        <li><span class="besar">&#9881;</span><div><b>Tekan "Belah &amp; lihat isinya"</b><small>lalu geser layar untuk memutar.</small></div></li>
+      </ol>
+      <button type="button" class="mulai" data-tutup>Mengerti, mulai</button>
+    </div>
   </div>
 
   <script>
     /* =================== PENGATURAN MARKER ===================
-     * Sekarang : 1 marker contoh MindAR, koleksi dipilih lewat tombol di atas.
-     * Nanti    : buat 5 marker sendiri, compile jadi assets/markers/targets.mind,
-     *            isi targetIndex tiap koleksi di js/koleksi.js (0..4), lalu ubah:
-     *              file: 'assets/markers/targets.mind', banyak: true
+     * 1 koleksi = 1 kartu marker.
+     * File assets/markers/targets.mind berisi 5 kartu (urutan = targetIndex di js/koleksi.js).
+     * Kalau file itu belum ada, halaman otomatis memakai 1 marker contoh MindAR
+     * dan koleksi dipilih lewat tombol di atas.
      */
-    var MARKER = {
-      file: 'https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind',
-      banyak: false
-    };
-    // 'tegak' = marker berdiri (dinding, layar laptop) | 'meja' = marker diletakkan mendatar di meja
+    var MARKER_KOLEKSI = 'assets/markers/targets.mind';
+    var MARKER_CONTOH = 'https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind';
+    // 'tegak' = kartu berdiri (dinding, layar) | 'meja' = kartu diletakkan mendatar di meja
     var ORIENTASI = 'tegak';
-    var SKALA_MODEL = 0.8;   // ukuran model dibanding lebar marker
+    var SKALA_MODEL = 0.8;   // ukuran model dibanding lebar kartu
+    var VERSI = '4';
     /* ========================================================= */
 
     (function () {
       var param = new URLSearchParams(location.search);
       var idAwal = param.get('id') || window.KOLEKSI[0].id;
-      var target = MARKER.banyak
-        ? window.KOLEKSI.map(function (k) { return { idx: k.targetIndex, id: k.id }; })
-        : [{ idx: 0, id: idAwal }];
-      var putarX = ORIENTASI === 'meja' ? '90 0 0' : '0 0 0';
-      var isi = target.map(function (t) {
-        return '<a-entity mindar-image-target="targetIndex: ' + t.idx + '">' +
-                 '<a-entity bayangan="bidang: marker; tinggi: 0.002"></a-entity>' +
-                 '<a-entity position="0 0 0.3" rotation="' + putarX + '">' +
-                   '<a-entity putar-geser="cubit: true; tegakOtomatis: ' + (ORIENTASI === 'tegak') + '">' +
-                     '<a-entity koleksi-3d="id: ' + t.id + '; skala: ' + SKALA_MODEL + '; tunda: ' + MARKER.banyak + '"></a-entity>' +
+
+      function bangun(fileMarker, banyak) {
+        var target = banyak
+          ? window.KOLEKSI.map(function (k) { return { idx: k.targetIndex, id: k.id }; })
+          : [{ idx: 0, id: idAwal }];
+        var putarX = ORIENTASI === 'meja' ? '90 0 0' : '0 0 0';
+        var isi = target.map(function (t) {
+          return '<a-entity mindar-image-target="targetIndex: ' + t.idx + '">' +
+                   '<a-entity bayangan="bidang: marker; tinggi: 0.002"></a-entity>' +
+                   '<a-entity position="0 0 0.3" rotation="' + putarX + '">' +
+                     '<a-entity putar-geser="cubit: true; tegakOtomatis: true">' +
+                       '<a-entity koleksi-3d="id: ' + t.id + '; skala: ' + SKALA_MODEL + '; tunda: ' + banyak + '"></a-entity>' +
+                     '</a-entity>' +
                    '</a-entity>' +
-                 '</a-entity>' +
-               '</a-entity>';
-      }).join('');
-      document.getElementById('wadah-scene').innerHTML =
-        '<a-scene mindar-image="imageTargetSrc: ' + MARKER.file + '; uiScanning: no; filterMinCF: 0.0001; filterBeta: 0.001"' +
-        ' color-space="sRGB" renderer="colorManagement: true; physicallyCorrectLights: true"' +
-        ' vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">' +
-          '<a-camera position="0 0 0" look-controls="enabled: false"></a-camera>' +
-          '<a-entity light="type: hemisphere; color: #fff6e8; groundColor: #4a4036; intensity: 2.6" data-lampu="2.6"></a-entity>' +
-          isi +
-        '</a-scene>';
+                 '</a-entity>';
+        }).join('');
+        document.getElementById('wadah-scene').innerHTML =
+          '<a-scene mindar-image="imageTargetSrc: ' + fileMarker + '; maxTrack: 1; uiScanning: no; filterMinCF: 0.0001; filterBeta: 0.001"' +
+          ' color-space="sRGB" renderer="colorManagement: true; physicallyCorrectLights: true"' +
+          ' vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">' +
+            '<a-camera position="0 0 0" look-controls="enabled: false"></a-camera>' +
+            '<a-entity light="type: hemisphere; color: #fff6e8; groundColor: #4a4036; intensity: 2.6" data-lampu="2.6"></a-entity>' +
+            isi +
+          '</a-scene>';
+        if (!banyak) {
+          var p = document.getElementById('petunjuk');
+          if (p) p.innerHTML = '<span class="ikon">&#128247;</span> Arahkan kamera ke <b>gambar marker contoh</b>';
+        }
+        var ui = document.createElement('script');
+        ui.src = 'js/ui.js?v=' + VERSI;
+        document.body.appendChild(ui);
+      }
+
+      // cek apakah file 5 kartu marker sudah ada
+      fetch(MARKER_KOLEKSI, { method: 'HEAD', cache: 'no-store' })
+        .then(function (r) { bangun(r.ok ? MARKER_KOLEKSI : MARKER_CONTOH, r.ok); })
+        .catch(function () { bangun(MARKER_CONTOH, false); });
     })();
   </script>
-  <script src="js/ui.js?v=3"></script>
 </body>
 </html>
