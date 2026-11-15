@@ -1,56 +1,111 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AR Museum Geoteknologi Mineral UPNVYK</title>
-  <link rel="stylesheet" href="css/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MINERAV | Museum Geoteknologi Mineral UPNVYK</title>
+    <link rel="stylesheet" href="css/beranda.css">
 </head>
 <body>
-  <main class="beranda">
+
+    <!-- NAVBAR -->
     <header>
-      <div class="label">Museum Geoteknologi Mineral UPNVYK</div>
-      <h1>Belah batu dan fosil, lihat isinya dalam AR</h1>
-      <p>Arahkan kamera HP ke marker di samping koleksi. Model 3D akan muncul, bisa diputar, lalu dibelah untuk melihat mineral dan struktur di bagian dalamnya.</p>
+        <nav class="navbar">
+            <a href="#home" class="logo">MINERAV<span>.</span></a>
+
+            <ul class="nav-menu">
+                <li><a href="#home">Beranda</a></li>
+                <li><a href="#collection">Koleksi</a></li>
+                <li><a href="#ar">Coba AR</a></li>
+                <li><a href="#about">Tentang kami</a></li>
+            </ul>
+
+            <a href="#collection" class="nav-button">Eksplor sekarang</a>
+        </nav>
     </header>
 
-    <div class="grid" id="daftar"></div>
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <p class="subtitle">MUSEUM GEOTEKNOLOGI MINERAL UPNVYK</p>
 
-    <section class="cara">
-      <h2>Cara mencoba</h2>
-      <ol>
-        <li><b>Tanpa kamera:</b> tekan <i>Lihat 3D</i> untuk memutar dan membelah model langsung di layar.</li>
-        <li><b>Dengan AR:</b> buka gambar marker
-          <a href="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" target="_blank" rel="noopener">ini</a>
-          di layar laptop atau cetak di kertas.</li>
-        <li>Di HP, tekan <i>Mode AR</i>, izinkan kamera, lalu arahkan ke marker.</li>
-        <li>Tekan <i>Belah</i> untuk melihat isi bagian dalam, dan tombol speaker untuk mendengarkan penjelasan.</li>
-      </ol>
+            <h1>Temukan keindahan<br>
+               batuan dan <span>fosil.</span>
+            </h1>
+
+            <p class="description">
+                Jelajahi koleksi museum dalam bentuk 3D. Putar, perbesar, lalu belah koleksinya untuk melihat isi bagian dalamnya, langsung dari kamera HP melalui Augmented Reality (AR).
+            </p>
+
+            <div class="hero-tombol">
+                <a href="#collection" class="primary-button">Eksplor koleksi &rarr;</a>
+                <a href="ar.html" class="secondary-button">Buka mode AR</a>
+            </div>
+        </div>
+
+        <div class="hero-image">
+            <a class="mineral-placeholder" href="viewer.html?id=kuarsa">
+                <img src="assets/img/kuarsa.webp" alt="Model 3D Kristal Kuarsa">
+                <p>KRISTAL KUARSA &middot; LIHAT 3D</p>
+            </a>
+        </div>
     </section>
 
-    <p class="catatan">Model 3D dibuat dengan kode sebagai ilustrasi, bukan hasil pindai koleksi asli. Informasi koleksi bersifat umum dan perlu dicocokkan dengan data museum.</p>
-  </main>
+    <!-- COLLECTION SECTION -->
+    <section class="collection" id="collection">
+        <div class="section-heading">
+            <div>
+                <p class="subtitle">KOLEKSI KAMI</p>
+                <h2>Eksplor Koleksi</h2>
+            </div>
+            <p>Tiga batuan dan mineral, serta dua fosil<br>
+                koleksi Museum Geoteknologi Mineral UPNVYK.</p>
+        </div>
 
-  <script src="js/koleksi.js"></script>
-  <script>
-    (function () {
-      var wadah = document.getElementById('daftar');
-      window.KOLEKSI.forEach(function (k) {
-        var warna = k.dalam.map(function (x) { return '<span style="background:' + x.warna + '" title="' + x.nama + '"></span>'; }).join('');
-        var div = document.createElement('article');
-        div.className = 'kartu';
-        div.innerHTML =
-          '<div class="kat">' + k.kategori + '</div>' +
-          '<h2>' + k.nama + '</h2>' +
-          '<p>' + k.ringkas + '</p>' +
-          '<div class="warna">' + warna + '</div>' +
-          '<div class="aksi">' +
-            '<a class="tombol" href="viewer.html?id=' + k.id + '">Lihat 3D</a>' +
-            '<a class="tombol utama" href="ar.html?id=' + k.id + '">Mode AR</a>' +
-          '</div>';
-        wadah.appendChild(div);
-      });
-    })();
-  </script>
+        <!-- kartu diisi otomatis dari js/koleksi.js -->
+        <div class="mineral-grid" id="daftar-koleksi"></div>
+    </section>
+
+    <!-- AR SECTION -->
+    <section class="ar-section" id="ar">
+        <div class="ar-content">
+            <p class="subtitle">BAGIAN INTERAKTIF</p>
+            <h2>Lihat isi batuan dan fosil<br>dengan Augmented Reality.</h2>
+            <ol class="langkah">
+                <li>Buka gambar marker
+                    <a href="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" target="_blank" rel="noopener">ini</a>
+                    di layar laptop, atau cetak di kertas.</li>
+                <li>Di HP, tekan <b>Coba AR</b> lalu izinkan kamera.</li>
+                <li>Arahkan kamera ke marker, pilih koleksi, lalu tekan <b>Belah</b>.</li>
+            </ol>
+            <div class="ar-tombol">
+                <a href="ar.html" class="primary-button">Coba AR &rarr;</a>
+                <a href="viewer.html" class="secondary-button">Lihat 3D tanpa kamera</a>
+            </div>
+        </div>
+
+        <a class="ar-icon" href="ar.html">
+            <span>&#8982;</span>
+            <p>AR EXPERIENCE</p>
+        </a>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="about" id="about">
+        <p class="subtitle">TENTANG MINERAV</p>
+        <h2>Mengenal Koleksi Museum<br>Lewat Teknologi.</h2>
+        <p>
+            MINERAV adalah museum digital untuk Museum Geoteknologi Mineral UPNVYK. Koleksi museum ditampilkan dalam 3D dan Augmented Reality, sehingga pengunjung bisa melihat bagian dalam batuan dan fosil tanpa menyentuh benda aslinya. Web ini dibuat oleh mahasiswa Informatika UPNVYK sebagai projek mata kuliah Komputer dan Masyarakat.
+        </p>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <h3>MINERAV<span>.</span></h3>
+        <p>Museum Geoteknologi Mineral UPNVYK &copy; 2026</p>
+    </footer>
+
+    <script src="js/koleksi.js"></script>
+    <script src="js/beranda.js"></script>
 </body>
 </html>

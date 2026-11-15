@@ -14,7 +14,7 @@
 
   <a-scene
     renderer="colorManagement: true; antialias: true; physicallyCorrectLights: true"
-    background="color: #1e1b18"
+    background="color: #EAF0F7"
     vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: false"
     loading-screen="enabled: false">
@@ -22,8 +22,8 @@
     <a-entity id="kamera" camera position="0 0.05 2" look-controls="enabled: false" wasd-controls="enabled: false"></a-entity>
 
     <!-- lampu (angka data-lampu = intensitas dasar, bisa diatur dengan ?cahaya=1.5) -->
-    <a-entity light="type: hemisphere; color: #fff6e8; groundColor: #4a4036; intensity: 2.4" data-lampu="2.4"></a-entity>
-    <a-entity bayangan="bidang: lantai; tinggi: -0.56; kekuatan: 3; gelap: 0.45"></a-entity>
+    <a-entity light="type: hemisphere; color: #fff6e8; groundColor: #7a8696; intensity: 2.4" data-lampu="2.4"></a-entity>
+    <a-entity bayangan="bidang: lantai; tinggi: -0.56; kekuatan: 3; gelap: 0.3"></a-entity>
     <a-entity light="type: directional; color: #c9d6ff; intensity: 1" position="-2 0.5 -1" data-lampu="1"></a-entity>
 
     <a-entity putar-geser="otomatis: true" rotation="12 -30 0">

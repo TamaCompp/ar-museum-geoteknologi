@@ -8,7 +8,7 @@ Projek akhir mata kuliah Komputer dan Masyarakat, Informatika UPNVYK.
 
 | File | Fungsi |
 |---|---|
-| `index.html` | Beranda, daftar koleksi |
+| `index.html` | Beranda MINERAV (desain tim), daftar koleksi |
 | `viewer.html?id=kuarsa` | Lihat 3D tanpa kamera (bisa di laptop) |
 | `ar.html?id=kuarsa` | Mode AR dengan kamera HP + marker |
 
@@ -18,7 +18,10 @@ ID koleksi: `kuarsa`, `zamrud`, `biotite`, `homoerectus`, `gajah`.
 
 ```
 index.html, viewer.html, ar.html
-css/style.css
+css/beranda.css   tampilan beranda
+css/style.css     tampilan halaman 3D dan AR
+js/beranda.js     mengisi kartu koleksi di beranda
+assets/img/       gambar model untuk kartu koleksi
 js/koleksi.js     data teks koleksi (nama, info, isi bagian dalam)
 js/geologi3d.js   pembuat model 3D + tekstur + belahan (tanpa file .glb)
 js/komponen.js    komponen A-Frame: koleksi-3d, putar-geser
